@@ -1,0 +1,30 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or the definition README at
+// https://github.com/microsoft/vscode-dev-containers/tree/master/containers/docker-existing-dockerfile
+{
+	"$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+	"name": "pen-and-paper",
+	"dockerComposeFile": "compose.yaml",
+	"service": "devcontainer",
+	"workspaceFolder": "/workspace",
+	// The environment variables to include from the shell
+	"userEnvProbe": "loginShell",
+	// Set the user id inside the container
+	"updateRemoteUserUID": false,
+	// Loads the default.nix configuration on startup
+	"onCreateCommand": "nix-shell --command 'echo done building nix dev environment'",
+	// VS Code Extension bundled with the development environment
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				// Nix support
+				"arrterian.nix-env-selector",
+				"jnoortheen.nix-ide",
+				"fsevenm.run-it-on",
+				// Dockerfile support
+				"ms-azuretools.vscode-docker",
+				// Yaml support
+				"redhat.vscode-yaml"
+			]
+		}
+	}
+}

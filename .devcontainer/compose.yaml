@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+
+services:
+  # The main development container
+  devcontainer:
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        USER_UID: ${USER_UID:-1000}
+        USER_GID: ${USER_GID:-1000}
+    environment:
+      DOCKER_HOST: tcp://localhost:2375
+    volumes:
+      - ..:/workspace:cached
+      - nix:/nix
+    security_opt:
+      - label:disable
+    network_mode: host
+
+  # Container for isolating and enabling running containers within the development environment
+  docker:
+    image: docker:dind-rootless
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+      DOCKER_DRIVER: overlay2
+    privileged: true
+    volumes:
+      - ..:/workspace:cached
+      - nix:/nix
+      - docker:/var/lib/docker
+    security_opt:
+      - label:disable
+    network_mode: host
+
+# Volumes used for caching network resources
+volumes:
+  nix:
+  docker:

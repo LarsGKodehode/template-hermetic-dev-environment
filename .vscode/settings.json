@@ -1,0 +1,17 @@
+{
+  // Nix helping configuration
+  "nixEnvSelector.nixFile": "${workspaceFolder}/default.nix",
+  "nix.enableLanguageServer": true,
+  // Path to the Nix LSP (pkgs.nil)
+  "nix.serverPath": "/nix/store/qb4b5khy0csiwqx9520hrrrlmnx5v9k9-nil-2023-08-09/bin/nil",
+  "runItOn": {
+    "commands": [
+      // Rebuild Nix shell when *.nix files changes
+      {
+        "match": "*.nix",
+        "isShellCommand": false,
+        "cmd": "nixEnvSelector.hitEnv"
+      }
+    ]
+  }
+}
